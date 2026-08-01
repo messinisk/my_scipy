@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="scipy_analytics",
+    name="ScipyAnalytics",
     version="0.1.1",
     description="Extensions for SciPy: Pearson distributions, Monte Carlo, fitting, plotting",
     author="messinisk",

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scipy-analytics"
+version = "0.1.1"
+description = "Extensions for SciPy: Pearson distributions, Monte Carlo, fitting, plotting"
+authors = [
+    { name = "messinisk", email = "messiniskostas0@gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib"
+]
+
+[tool.setuptools]
+packages = ["scipy_analytics"]

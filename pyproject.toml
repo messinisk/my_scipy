@@ -7,7 +7,7 @@ name = "scipy-analytics"
 version = "0.1.1"
 description = "Extensions for SciPy: Pearson distributions, Monte Carlo, fitting, plotting"
 authors = [
-    { name = "messinisk", email = "messiniskostas0@gmail.com" }
+    { name = "messinis kostas", email = "messiniskostas0@gmail.com" }
 ]
 readme = "README.md"
 license = { text = "MIT" }
@@ -21,3 +21,5 @@ dependencies = [
 
 [tool.setuptools]
 packages = ["scipy_analytics"]
+[tool.ruff]
+target-version = "py314"

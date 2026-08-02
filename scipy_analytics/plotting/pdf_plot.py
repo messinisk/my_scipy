@@ -1,8 +1,8 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-def plot_pdf(dist, xmin, xmax, n=200)->None:
+def plot_pdf(dist, xmin, xmax, n=200) -> None:
     """
     Σχεδιάζει την PDF μιας κατανομής στο διάστημα [xmin, xmax].
 

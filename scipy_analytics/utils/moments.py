@@ -22,6 +22,6 @@ def sample_moments(data):
     """
     mean = np.mean(data)
     var = np.var(data)
-    skew = ((data - mean)**3).mean() / var**1.5
-    kurt = ((data - mean)**4).mean() / var**2
+    skew = ((data - mean) ** 3).mean() / var**1.5
+    kurt = ((data - mean) ** 4).mean() / var**2
     return mean, var, skew, kurt

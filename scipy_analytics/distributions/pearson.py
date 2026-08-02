@@ -1,9 +1,11 @@
-from enum import Enum
-import numpy as np
-from scipy.stats import beta, gamma, t, invgamma, betaprime, norm
-from .scipy_wrappers import SciPyDistribution
+from enum import StrEnum
 
-class PearsonType(Enum):
+from scipy.stats import beta, betaprime, gamma, invgamma, norm, t
+
+from scipy_analytics.distributions.scipy_wrappers import SciPyDistribution
+
+
+class PearsonType(StrEnum):
     NORMAL = "Normal"
     I = "Pearson I"
     II = "Pearson II"
@@ -14,77 +16,46 @@ class PearsonType(Enum):
     VII = "Pearson VII"
     UNKNOWN = "Unknown"
 
- PEARSON_MAP = {
-        PearsonType.I: beta,
-        PearsonType.II: beta,
-        PearsonType.III: gamma,
-        PearsonType.VII: t,
-        PearsonType.V: invgamma,
-        PearsonType.VI: betaprime,
-        PearsonType.NORMAL: norm,}
+
+PEARSON_MAP = {
+    PearsonType.I: beta,
+    PearsonType.II: beta,
+    PearsonType.III: gamma,
+    PearsonType.VII: t,
+    PearsonType.V: invgamma,
+    PearsonType.VI: betaprime,
+    PearsonType.NORMAL: norm,
+}
 
 
-def classify_pearson(skew, kurt):
-    """
-    Ταξινομεί μια κατανομή στον κατάλληλο τύπο Pearson
-    με βάση την ασυμμετρία (skewness) και την κύρτωση (kurtosis).
-
-    Η μέθοδος υλοποιεί τον θεωρητικό κανόνα ταξινόμησης
-    του Karl Pearson, ο οποίος βασίζεται στις ροπές:
-    β1 = skew^2 και β2 = kurtosis.
-
-    Parameters
-    ----------
-    skew : float
-        Η ασυμμετρία του δείγματος.
-    kurt : float
-        Η κύρτωση του δείγματος.
-
-    Returns
-    -------
-    str
-        Το όνομα του τύπου Pearson (I, III, IV, VII, κ.λπ.).
-    """
-
-    beta1 = skew**2
+def pearson_moments(skew: float, kurt: float) -> tuple[float, float, float]:
+    beta1 = skew ** 2
     beta2 = kurt
     D = beta2 - beta1 - 1
+    return beta1, beta2, D
 
-    match (skew, kurt, D):
+def classify_special(skew: float, kurt: float) -> str | None:
+    if skew == 0 and kurt == 3:
+        return PearsonType.NORMAL
+    if skew == 0 and kurt > 3:
+        return PearsonType.VII
+    return None
 
-        # Κανονική κατανομή
-        case (0, 3, _):
-            return PearsonType.NORMAL
+def classify_beta_family(skew: float, D: float) -> str | None:
+    if D < 0:
+        return PearsonType.II if skew == 0 else PearsonType.I
+    return None
 
-        # Pearson VII (Student-t γενίκευση)
-        case (0, kurt, _) if kurt > 3:
-            return PearsonType.VII
-
-         # Pearson I / II (Beta family)
-        case (_, _, D) if D < 0:
-            if skew == 0:
-                return PearsonType.II
-            return PearsonType.I
-
-        # Pearson IV (complex roots)
-        case (skew, _, D) if D > 0 and skew != 0:
-            return PearsonType.IV
-
-        # Pearson III (Gamma)
-        case (skew, kurt, _) if skew > 0 and kurt > 3:
-            return PearsonType.III
-        
-        # Pearson V (Inverse Gamma)
-        case (skew, kurt, _) if skew < 0 and kurt > 3:
-            return PearsonType.V
-
-        # Pearson VI (Beta Prime)
-        case (skew, kurt, _) if skew != 0 and kurt < 3:
-            return PearsonType.VI
-
-        # Άγνωστο / μη ταξινομήσιμο
-        case _:
-            return PearsonType.UNKNOWN
+def classify_remaining(skew: float, kurt: float, D: float) -> str | None:
+    if D > 0 and skew != 0:
+        return PearsonType.IV
+    if skew > 0 and kurt > 3:
+        return PearsonType.III
+    if skew < 0 and kurt > 3:
+        return PearsonType.V
+    if skew != 0 and kurt < 3:
+        return PearsonType.VI
+    return None
 
 def get_distribution(dist_type, params):
     """

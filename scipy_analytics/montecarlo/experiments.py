@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def mean_experiment(mc_engine, n):
     """
     Πείραμα Monte Carlo για εκτίμηση της μέσης τιμής.
@@ -70,7 +71,7 @@ def skew_experiment(mc_engine, n):
     samples = mc_engine.simulate(n)
     mean = np.mean(samples)
     var = np.var(samples)
-    skew = np.mean((samples - mean)**3) / (var**1.5)
+    skew = np.mean((samples - mean) ** 3) / (var**1.5)
     return float(skew)
 
 
@@ -96,6 +97,5 @@ def kurtosis_experiment(mc_engine, n):
     samples = mc_engine.simulate(n)
     mean = np.mean(samples)
     var = np.var(samples)
-    kurt = np.mean((samples - mean)**4) / (var**2)
+    kurt = np.mean((samples - mean) ** 4) / (var**2)
     return float(kurt)
-

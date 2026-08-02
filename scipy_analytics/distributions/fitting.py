@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.stats import rv_continuous
 
 
 def fit_moments(data):
@@ -24,17 +23,15 @@ def fit_moments(data):
 
     mean = np.mean(data)
     var = np.var(data)
-    skew = np.mean((data - mean)**3) / (var**1.5)
-    kurt = np.mean((data - mean)**4) / (var**2)
+    skew = np.mean((data - mean) ** 3) / (var**1.5)
+    kurt = np.mean((data - mean) ** 4) / (var**2)
 
     return {
         "mean": float(mean),
         "variance": float(var),
         "skewness": float(skew),
-        "kurtosis": float(kurt)
+        "kurtosis": float(kurt),
     }
-
-
 
 
 def fit_distribution(dist_class, data):
@@ -66,4 +63,5 @@ def fit_distribution(dist_class, data):
 
     # Επιστροφή ως SciPyDistribution αντικείμενο
     from .scipy_wrappers import SciPyDistribution
+
     return SciPyDistribution(dist_class, *params)

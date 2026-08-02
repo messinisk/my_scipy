@@ -1,5 +1,3 @@
-
-
 class MonteCarlo:
     """
     Κινητήρας Monte Carlo για προσομοιώσεις με βάση
@@ -23,6 +21,7 @@ class MonteCarlo:
         Εκτελεί πείραμα Monte Carlo εφαρμόζοντας μια
         συνάρτηση func στα παραγόμενα δείγματα.
     """
+
     def __init__(self, distribution):
         self.dist = distribution
 

@@ -1,5 +1,6 @@
 from scipy.stats import rv_continuous
-from .base import Distribution
+
+from scipy_analytics.distributions.bases import Distribution
 
 
 class SciPyDistribution(Distribution):
@@ -72,6 +73,6 @@ class SciPyDistribution(Distribution):
         """
         stats()
         Επιστρέφει τις ροπές της κατανομής (mvsk).
-        
+
         """
-        return self.dist.stats(*self.params, moments='mvsk')
+        return self.dist.stats(*self.params, moments="mvsk") # type: ignore[arg-type]

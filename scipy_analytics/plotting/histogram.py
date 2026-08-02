@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def plot_histogram(data, bins='auto', density=True):
+def plot_histogram(data, bins="auto", density=True):
     """
     Σχεδιάζει ιστόγραμμα των δεδομένων.
 
@@ -23,7 +23,7 @@ def plot_histogram(data, bins='auto', density=True):
     -------
     None
     """
-    plt.hist(data, bins=bins, density=density, histtype='stepfilled', alpha=0.3)
+    plt.hist(data, bins=bins, density=density, histtype="stepfilled", alpha=0.3)
     plt.title("Histogram")
     plt.xlabel("Value")
     plt.ylabel("Density" if density else "Count")

@@ -4,7 +4,7 @@ setup(
     name="scipy_analytics",
     version="0.1.1",
     description="Extensions for SciPy: Pearson distributions, Monte Carlo, fitting, plotting",
-    author="messinisk",
+    author="messinis kostas",
     packages=find_packages(),
     install_requires=[
         "numpy",

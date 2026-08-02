@@ -1,4 +1,5 @@
 from enum import StrEnum
+import math
 
 from scipy.stats import beta, betaprime, gamma, invgamma, norm, t
 
@@ -46,7 +47,8 @@ def classify_beta_family(skew: float, D: float) -> str | None:
         return PearsonType.II if skew == 0 else PearsonType.I
     return None
 
-def classify_remaining(skew: float, kurt: float, D: float) -> str | None:
+def classify_remaining(skew: float, kurt: float, D: float) -> PearsonType | None:
+
     if D > 0 and skew != 0:
         return PearsonType.IV
     if skew > 0 and kurt > 3:
@@ -57,6 +59,26 @@ def classify_remaining(skew: float, kurt: float, D: float) -> str | None:
         return PearsonType.VI
     return None
 
+def classify_pearson(skew: float, kurt: float) -> PearsonType:
+    # Αν οι ροπές δεν είναι ορισμένες
+    if math.isnan(skew) or math.isnan(kurt):
+        return PearsonType.UNKNOWN
+
+    beta1 = skew ** 2
+    beta2 = kurt
+    D = beta2 - beta1 - 1
+
+    if (t := classify_special(skew, kurt)):
+        return t # type: ignore
+
+    if (t := classify_beta_family(skew, D)):
+        return t # type: ignore
+
+    if (t := classify_remaining(skew, kurt, D)):
+        return t
+
+    return PearsonType.UNKNOWN
+ 
 def get_distribution(dist_type, params):
     """
     Επιστρέφει το αντικείμενο κατανομής που αντιστοιχεί

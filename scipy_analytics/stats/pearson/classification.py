@@ -1,3 +1,4 @@
+# pearson.py
 from enum import StrEnum
 import math
 

@@ -1,4 +1,16 @@
-# pearson.py
+"""
+Classification utilities for Pearson correlation.
+
+Το module παρέχει:
+- classify_pearson: Υπολογισμό και ταξινόμηση του Pearson correlation coefficient
+  σε προκαθορισμένες κατηγορίες.
+- PearsonType: Enum που περιγράφει τους τύπους Pearson correlation
+  (Strong Positive, Weak Negative, Zero, κτλ).
+
+Η ταξινόμηση βασίζεται σε thresholds που ευθυγραμμίζονται με κοινές πρακτικές
+στατιστικής ανάλυσης (βλ. scipy.stats Pearson’s Correlation).
+"""
+
 from enum import StrEnum
 import math
 

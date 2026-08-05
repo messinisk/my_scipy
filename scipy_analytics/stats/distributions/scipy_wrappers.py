@@ -1,6 +1,6 @@
 from scipy.stats import rv_continuous
 
-from scipy_analytics.distributions.bases import Distribution
+from scipy_analytics.stats.distributions.bases import Distribution
 
 
 class SciPyDistribution(Distribution):

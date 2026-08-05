@@ -1,7 +1,20 @@
-from . import distributions
-from . import utils
-from . import montecarlo
-from . import plotting
-from . import stats
+"""
+scipy_analytics
+===============
 
-__all__ = ["distributions", "utils", "montecarlo", "plotting", "stats"]
+Automation layer πάνω από το scipy.stats.
+
+Οργανώνει και αυτοματοποιεί:
+- correlation analysis
+- descriptive statistics
+- statistical tests
+- probability distributions
+- KDE
+- QMC sampling
+- contingency analysis
+- plotting utilities
+- distribution fitting
+"""
+
+
+

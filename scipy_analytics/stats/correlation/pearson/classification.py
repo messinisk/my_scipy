@@ -16,7 +16,7 @@ import math
 
 from scipy.stats import beta, betaprime, gamma, invgamma, norm, t
 
-from scipy_analytics.distributions.scipy_wrappers import SciPyDistribution
+from scipy_analytics.stats.distributions.scipy_wrappers import SciPyDistribution
 
 
 class PearsonType(StrEnum):

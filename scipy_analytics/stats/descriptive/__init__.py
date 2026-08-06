@@ -15,6 +15,7 @@ Descriptive statistics utilities.
 """
 
 from .descriptive_stats import (
+    descriptive_stats,
     geometric_mean,
     harmonic_mean,
     kurtosis_value,
@@ -29,6 +30,7 @@ from .descriptive_stats import (
 )
 
 __all__ = [
+    "descriptive_stats",
     "geometric_mean",
     "harmonic_mean",
     "kurtosis_value",

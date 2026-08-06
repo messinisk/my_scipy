@@ -28,6 +28,7 @@ from .contingency.contingency import (
 from .correlation.pearson.classification import classify_pearson
 from .correlation.spearman_kendall import kendall_correlation, spearman_correlation
 from .descriptive.descriptive_stats import (
+    descriptive_stats,
     geometric_mean,
     harmonic_mean,
     kurtosis_value,
@@ -85,6 +86,7 @@ __all__ = [
     "classify_pearson",
     "cramers_v",
     "dagostino_test",
+    "descriptive_stats",
     "dist_stats",
     "fisher_test",
     "fit_distribution",

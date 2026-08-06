@@ -19,8 +19,10 @@ def test_descriptive_variance_std():
     data = [1, 2, 3, 4]
     result = descriptive_stats(data)
 
-    assert pytest.approx(result["variance"], rel=1e-6) == 1.25
-    assert pytest.approx(result["std"], rel=1e-6) == np.sqrt(1.25)
+    assert result["variance"] == pytest.approx(1.25, rel=1e-6)
+    assert result["std"] == pytest.approx(np.sqrt(1.25), rel=1e-6)
+
+
 
 
 def test_descriptive_mode():

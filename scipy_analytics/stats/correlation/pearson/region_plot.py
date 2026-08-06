@@ -13,6 +13,5 @@ Visualization utilities for Pearson correlation regions.
 """
 
 
-
 def plot_pearson_region():
     pass

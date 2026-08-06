@@ -11,8 +11,8 @@ Classification utilities for Pearson correlation.
 στατιστικής ανάλυσης (βλ. scipy.stats Pearson’s Correlation).
 """
 
-from enum import StrEnum
 import math
+from enum import StrEnum
 
 from scipy.stats import beta, betaprime, gamma, invgamma, norm, t
 
@@ -43,10 +43,11 @@ PEARSON_MAP = {
 
 
 def pearson_moments(skew: float, kurt: float) -> tuple[float, float, float]:
-    beta1 = skew ** 2
+    beta1 = skew**2
     beta2 = kurt
     D = beta2 - beta1 - 1
     return beta1, beta2, D
+
 
 def classify_special(skew: float, kurt: float) -> str | None:
     if skew == 0 and kurt == 3:
@@ -55,10 +56,12 @@ def classify_special(skew: float, kurt: float) -> str | None:
         return PearsonType.VII
     return None
 
+
 def classify_beta_family(skew: float, D: float) -> str | None:
     if D < 0:
         return PearsonType.II if skew == 0 else PearsonType.I
     return None
+
 
 def classify_remaining(skew: float, kurt: float, D: float) -> PearsonType | None:
 
@@ -72,26 +75,28 @@ def classify_remaining(skew: float, kurt: float, D: float) -> PearsonType | None
         return PearsonType.VI
     return None
 
+
 def classify_pearson(skew: float, kurt: float) -> PearsonType:
     # Αν οι ροπές δεν είναι ορισμένες
     if math.isnan(skew) or math.isnan(kurt):
         return PearsonType.UNKNOWN
 
-    beta1 = skew ** 2
+    beta1 = skew**2
     beta2 = kurt
     D = beta2 - beta1 - 1
 
-    if (t := classify_special(skew, kurt)):
-        return t # type: ignore
+    if t := classify_special(skew, kurt):
+        return t  # type: ignore
 
-    if (t := classify_beta_family(skew, D)):
-        return t # type: ignore
+    if t := classify_beta_family(skew, D):
+        return t  # type: ignore
 
-    if (t := classify_remaining(skew, kurt, D)):
+    if t := classify_remaining(skew, kurt, D):
         return t
 
     return PearsonType.UNKNOWN
- 
+
+
 def get_distribution(dist_type, params):
     """
     Επιστρέφει το αντικείμενο κατανομής που αντιστοιχεί

@@ -5,13 +5,24 @@ Probability distribution utilities.
 - bases: abstract distribution interfaces
 - fitting: εργαλεία MLE fitting
 - scipy_wrappers: unified interface για pdf/cdf/ppf/rvs
+- pdf, cdf, ppf, rvs, stats
+για norm, beta, gamma, chi2, t, f, logistic, binom, poisson, geom.
 """
-from .scipy_wrappers import SciPyDistribution
-from .fitting import fit_distribution
+
+from .api import cdf, pdf, ppf, rvs, stats
 from .bases import Distribution
+from .core import get_dist
+from .fitting import fit_distribution
+from .scipy_wrappers import SciPyDistribution
 
 __all__ = [
+    "Distribution",
     "SciPyDistribution",
+    "cdf",
     "fit_distribution",
-    "Distribution"
+    "get_dist",
+    "pdf",
+    "ppf",
+    "rvs",
+    "stats",
 ]

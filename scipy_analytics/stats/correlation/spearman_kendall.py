@@ -18,7 +18,7 @@ Spearman & Kendall correlation utilities.
 - Συμβατότητα με scipy.stats.spearmanr και scipy.stats.kendalltau
 """
 
-from scipy.stats import spearmanr, kendalltau
+from scipy.stats import kendalltau, spearmanr
 
 
 def spearman_correlation(x, y):

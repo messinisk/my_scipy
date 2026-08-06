@@ -75,4 +75,4 @@ class SciPyDistribution(Distribution):
         Επιστρέφει τις ροπές της κατανομής (mvsk).
 
         """
-        return self.dist.stats(*self.params, moments="mvsk") # type: ignore[arg-type]
+        return self.dist.stats(*self.params, moments="mvsk")  # type: ignore[arg-type]

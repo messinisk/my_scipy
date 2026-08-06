@@ -14,5 +14,5 @@ Reporting utilities for Pearson correlation analysis.
 """
 
 
-class  PearsonReport:
+class PearsonReport:
     pass

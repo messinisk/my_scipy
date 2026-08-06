@@ -27,13 +27,13 @@ Pearson Analytics Package
 σαφές ποια API στοιχεία είναι διαθέσιμα στον χρήστη.
 """
 
-from .classification import classify_pearson, PearsonType
-from .report import PearsonReport
+from .classification import PearsonType, classify_pearson
 from .region_plot import plot_pearson_region
+from .report import PearsonReport
 
 __all__ = [
-    "classify_pearson",
-    "PearsonType",
     "PearsonReport",
+    "PearsonType",
+    "classify_pearson",
     "plot_pearson_region",
 ]

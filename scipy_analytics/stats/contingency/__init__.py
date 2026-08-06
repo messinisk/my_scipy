@@ -14,3 +14,17 @@ Contingency table analysis utilities.
 - Plug-and-play χρήση σε statistical workflows
 - Συμβατότητα με scipy.stats.chi2_contingency
 """
+
+from .contingency import (
+    chi_square,
+    cramers_v,
+    odds_ratio,
+    phi_coefficient,
+)
+
+__all__ = [
+    "chi_square",
+    "cramers_v",
+    "odds_ratio",
+    "phi_coefficient",
+]

@@ -20,6 +20,7 @@ from .contingency import (
     cramers_v,
     odds_ratio,
     phi_coefficient,
+    tschuprow_t,
 )
 
 __all__ = [
@@ -27,4 +28,5 @@ __all__ = [
     "cramers_v",
     "odds_ratio",
     "phi_coefficient",
+    "tschuprow_t",
 ]

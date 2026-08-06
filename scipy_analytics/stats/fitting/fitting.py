@@ -43,6 +43,7 @@ DistributionType = rv_continuous | rv_discrete | rv_frozen
 # Log-likelihood
 # ---------------------------------------------------------
 
+
 def _loglik(dist: rv_frozen, data: ndarray) -> float:
     pdf_vals = cast(Any, dist).pdf(data)
     pdf_vals = np.clip(pdf_vals, 1e-300, None)
@@ -53,8 +54,10 @@ def _loglik(dist: rv_frozen, data: ndarray) -> float:
 # AIC / BIC
 # ---------------------------------------------------------
 
+
 def _aic(loglik: float, k: int) -> float:
     return float(2 * k - 2 * loglik)
+
 
 def _bic(loglik: float, k: int, n: int) -> float:
     return float(np.log(n) * k - 2 * loglik)
@@ -64,10 +67,9 @@ def _bic(loglik: float, k: int, n: int) -> float:
 # Main fitting function
 # ---------------------------------------------------------
 
+
 def fit_distribution(
-    dist: DistributionType,
-    data: NumericArray,
-    method: str = "MLE"
+    dist: DistributionType, data: NumericArray, method: str = "MLE"
 ) -> FitResult:
     """
     Fit a SciPy distribution using MLE (.fit()).
@@ -127,14 +129,13 @@ def fit_distribution(
 
     # Shape parameters = all except last two
     num_shapes = num_params - 2
-    shape_names = [f"shape{i+1}" for i in range(num_shapes)]
+    shape_names = [f"shape{i + 1}" for i in range(num_shapes)]
 
     # Final parameter names
     names = shape_names + ["loc", "scale"]
 
     # Build parameter dictionary
     param_dict = {name: float(val) for name, val in zip(names, params)}
-
 
     return {
         "params": param_dict,
@@ -148,10 +149,10 @@ def fit_distribution(
     }
 
 
-
 # ---------------------------------------------------------
 # Summary utility
 # ---------------------------------------------------------
+
 
 def summarize_fit(result: FitResult) -> dict[str, float]:
     """

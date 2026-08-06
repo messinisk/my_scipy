@@ -21,6 +21,7 @@ from .contingency.contingency import (
     cramers_v,
     odds_ratio,
     phi_coefficient,
+    tschuprow_t,
 )
 
 # Correlation
@@ -42,7 +43,7 @@ from .descriptive.descriptive_stats import (
 from .distributions import cdf, pdf, ppf, rvs
 from .distributions import stats as dist_stats
 from .distributions.scipy_wrappers import SciPyDistribution
-from .fitting import fit_distribution, summarize_fit
+from .fitting.fitting import fit_distribution, summarize_fit
 
 # Plots
 from .plots.pdf_plot import plot_pdf
@@ -118,6 +119,7 @@ __all__ = [
     "std",
     "summarize_fit",
     "trimmed_mean_value",
+    "tschuprow_t",
     "ttest_independent",
     "ttest_paired",
     "variance",

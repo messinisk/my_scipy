@@ -83,3 +83,20 @@ def cramers_v(table: ContingencyTable) -> ContingencyResult:
         "method": "cramers_v",
         "extra": {"n": n, "rows": r, "cols": c},
     }
+
+
+def tschuprow_t(table: ContingencyTable) -> ContingencyResult:
+    arr = _to_array(table)
+    chi = chi_square(arr)
+    n = arr.sum()
+    r, c = arr.shape
+
+    denom = n * np.sqrt((r - 1) * (c - 1))
+    T = np.sqrt(chi["statistic"] / denom)
+
+    return {
+        "statistic": float(T),
+        "pvalue": chi["pvalue"],
+        "method": "tschuprow_t",
+        "extra": {"n": n, "rows": r, "cols": c},
+    }

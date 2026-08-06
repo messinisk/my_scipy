@@ -27,25 +27,26 @@ def spearman_correlation(x, y):
 
     Parameters
     ----------
-    x : array-like
+    - x : array-like
         Πρώτη μεταβλητή.
-    y : array-like
+    - y : array-like
         Δεύτερη μεταβλητή.
 
     Returns
     -------
-    dict
-        {
-            "coef": float,
-            "pvalue": float,
-            "method": "spearman"
-        }
-    """
-    coef, pvalue = spearmanr(x, y)
-    return {
-        "coef": float(coef),
-        "pvalue": float(pvalue),
+    - Dict {
+        "statistic": float(stat),
+        "pvalue": float(p),
         "method": "spearman",
+        "extra": {}
+    }
+    """
+    stat, p = spearmanr(x, y)
+    return {
+        "statistic": float(stat),
+        "pvalue": float(p),
+        "method": "spearman",
+        "extra": {},
     }
 
 
@@ -64,14 +65,16 @@ def kendall_correlation(x, y):
     -------
     dict
         {
-            "coef": float,
-            "pvalue": float,
-            "method": "kendall"
-        }
-    """
-    coef, pvalue = kendalltau(x, y)
-    return {
-        "coef": float(coef),
-        "pvalue": float(pvalue),
+        "statistic": float(stat),
+        "pvalue": float(p),
         "method": "kendall",
+        "extra": {}
+    }
+    """
+    stat, p = kendalltau(x, y)
+    return {
+        "statistic": float(stat),
+        "pvalue": float(p),
+        "method": "kendall",
+        "extra": {},
     }

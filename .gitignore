@@ -1,0 +1,6 @@
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+scipy_analytics.egg-info/
+__pycache__/

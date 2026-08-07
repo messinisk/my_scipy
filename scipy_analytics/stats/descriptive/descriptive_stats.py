@@ -12,7 +12,7 @@ from scipy.stats import (
     trim_mean,
 )
 
-from .types import DescriptiveResult , LowLevelResult
+from .types import DescriptiveResult, LowLevelResult
 
 NumericArray = ndarray | Sequence[float]
 
@@ -100,6 +100,7 @@ def std(data: NumericArray, ddof: int = 1) -> LowLevelResult:
     value = float(np.std(data))
     return {"stat": value, "method": "std", "extra": {"ddof": ddof}}
 
+
 def skewness(data: NumericArray) -> LowLevelResult:
     """
     Υπολογίζει την ασυμμετρία (skewness).
@@ -124,9 +125,7 @@ def kurtosis_value(data: NumericArray) -> LowLevelResult:
     return {"stat": value, "method": "kurtosis", "extra": {}}
 
 
-def trimmed_mean_value(
-    data: NumericArray, proportion: float = 0.1
-) -> LowLevelResult:
+def trimmed_mean_value(data: NumericArray, proportion: float = 0.1) -> LowLevelResult:
     """
     Υπολογίζει trimmed mean.
 
@@ -201,14 +200,14 @@ def harmonic_mean(data: NumericArray) -> LowLevelResult:
 
 def descriptive_stats(data: NumericArray, kurt: bool = False) -> DescriptiveResult:
     arr = np.asarray(data, dtype=float)
-
+    if arr.size == 0:
+        raise ValueError("Empty input")
     return {
         "mean": mean(arr)["stat"],
         "median": median(arr)["stat"],
         "mode": mode_value(arr)["stat"],
         "variance": variance(arr)["stat"],  # ddof=1
-        "std": std(arr)["stat"],    # ddof=1
-
+        "std": std(arr)["stat"],  # ddof=1
         "skewness": skewness(arr)["stat"],
         "min": float(np.min(arr)),
         "max": float(np.max(arr)),
@@ -222,4 +221,3 @@ def descriptive_stats(data: NumericArray, kurt: bool = False) -> DescriptiveResu
         },
         "kurtosis": kurtosis_value(arr)["stat"] if kurt else None,
     }
-

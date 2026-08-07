@@ -16,6 +16,9 @@ Unified statistical API.
 """
 
 # Distributions
+from scipy_analytics.stats.association import tschuprows_t
+from scipy_analytics.stats.correlation.distance import distance_correlation
+
 from .contingency.contingency import (
     chi_square,
     cramers_v,
@@ -45,6 +48,10 @@ from .distributions import cdf, pdf, ppf, rvs
 from .distributions import stats as dist_stats
 from .distributions.scipy_wrappers import SciPyDistribution
 from .fitting.fitting import fit_distribution, summarize_fit
+from .information.mutual_information import (
+    mutual_information_continuous,
+    mutual_information_discrete,
+)
 
 # Plots
 from .plots.pdf_plot import plot_pdf
@@ -88,6 +95,7 @@ __all__ = [
     "dagostino_test",
     "descriptive_stats",
     "dist_stats",
+    "distance_correlation",
     "fisher_test",
     "fit_distribution",
     "friedman_test",
@@ -105,6 +113,8 @@ __all__ = [
     "mean",
     "median",
     "mode_value",
+    "mutual_information_continuous",
+    "mutual_information_discrete",
     "odds_ratio",
     "pdf",
     "phi_coefficient",
@@ -122,6 +132,7 @@ __all__ = [
     "summarize_fit",
     "trimmed_mean_value",
     "tschuprow_t",
+    "tschuprows_t",
     "ttest_independent",
     "ttest_paired",
     "variance",

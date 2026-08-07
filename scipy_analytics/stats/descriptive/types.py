@@ -15,7 +15,6 @@ class DescriptiveResult(TypedDict):
     kurtosis: float | None
 
 
-
 class LowLevelResult(TypedDict):
     stat: float
     method: str

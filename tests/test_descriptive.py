@@ -63,3 +63,4 @@ def test_descriptive_numpy_array():
 def test_descriptive_empty():
     with pytest.raises(ValueError):
         descriptive_stats([])
+    

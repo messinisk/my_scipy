@@ -1,3 +1,38 @@
+"""
+Descriptive statistics utilities.
+
+This module provides a unified API for computing descriptive statistics
+(mean, median, mode, variance, standard deviation, skewness, kurtosis,
+trimmed mean, winsorized mean, geometric mean, harmonic mean) using NumPy
+and SciPy.
+
+Each low‑level function returns a `LowLevelResult`:
+
+    {
+        "stat": float,
+        "method": str,
+        "extra": dict
+    }
+
+The high‑level function `descriptive_stats` returns a `DescriptiveResult`
+containing a full summary of descriptive metrics.
+
+Features
+--------
+- Unified return type for all descriptive metrics
+- NumPy‑friendly API
+- Robust statistics (trimmed mean, winsorized mean)
+- Optional kurtosis computation
+- Percentile summary (0, 25, 50, 75, 100)
+- Safe handling of empty input
+
+Notes
+-----
+- All functions accept Python sequences or NumPy arrays.
+- All results are cast to Python floats for consistency.
+- Variance and standard deviation use ddof=1 (sample statistics).
+"""
+
 from collections.abc import Sequence
 
 import numpy as np
@@ -19,17 +54,25 @@ NumericArray = ndarray | Sequence[float]
 
 def mean(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει τον αριθμητικό μέσο όρο.
+    Compute the arithmetic mean.
 
     Parameters
     ----------
     data : NumericArray
-        Ακολουθία αριθμητικών τιμών.
+        Sequence of numeric values.
 
     Returns
     -------
     LowLevelResult
-        Η τιμή του μέσου όρου.
+        stat : float
+            The mean value.
+        method : "mean"
+        extra : {}
+
+    Notes
+    -----
+    - Equivalent to NumPy's `np.mean`.
+    - Sensitive to outliers.
     """
     value = float(np.mean(data))
     return {"stat": value, "method": "mean", "extra": {}}
@@ -37,10 +80,10 @@ def mean(data: NumericArray) -> LowLevelResult:
 
 def median(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει τη διάμεσο.
+    Compute the median.
 
-    Η διάμεσος είναι το κεντρικό σημείο της κατανομής και είναι ανθεκτική
-    σε ακραίες τιμές (outliers).
+    The median is robust to outliers and represents the central point
+    of the distribution.
 
     Parameters
     ----------
@@ -56,12 +99,16 @@ def median(data: NumericArray) -> LowLevelResult:
 
 def mode_value(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει τη συχνότερη τιμή (mode).
+    Compute the mode (most frequent value).
 
     Returns
     -------
     LowLevelResult
-        extra["count"] περιέχει τον αριθμό εμφανίσεων της mode.
+        extra["count"] contains the number of occurrences.
+
+    Notes
+    -----
+    - Uses SciPy's `mode` with `keepdims=True`.
     """
     m = mode(data, keepdims=True)
     return {
@@ -73,17 +120,21 @@ def mode_value(data: NumericArray) -> LowLevelResult:
 
 def variance(data: NumericArray, ddof: int = 1) -> LowLevelResult:
     """
-    Υπολογίζει τη δειγματική διακύμανση.
+    Compute sample variance.
 
     Parameters
     ----------
     data : NumericArray
     ddof : int
-        Degrees of freedom (default 1 για δειγματική διακύμανση).
+        Degrees of freedom (default 1 for sample variance).
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Equivalent to `np.var(data, ddof=1)`.
     """
     value = float(np.var(data))
     return {"stat": value, "method": "variance", "extra": {"ddof": ddof}}
@@ -91,11 +142,15 @@ def variance(data: NumericArray, ddof: int = 1) -> LowLevelResult:
 
 def std(data: NumericArray, ddof: int = 1) -> LowLevelResult:
     """
-    Υπολογίζει την τυπική απόκλιση.
+    Compute sample standard deviation.
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Equivalent to `np.std(data, ddof=1)`.
     """
     value = float(np.std(data))
     return {"stat": value, "method": "std", "extra": {"ddof": ddof}}
@@ -103,11 +158,17 @@ def std(data: NumericArray, ddof: int = 1) -> LowLevelResult:
 
 def skewness(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει την ασυμμετρία (skewness).
+    Compute skewness (asymmetry of the distribution).
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Uses SciPy's `skew`.
+    - Positive skew → right tail heavier.
+    - Negative skew → left tail heavier.
     """
     value = float(skew(data))
     return {"stat": value, "method": "skewness", "extra": {}}
@@ -115,11 +176,16 @@ def skewness(data: NumericArray) -> LowLevelResult:
 
 def kurtosis_value(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει την κύρτωση (kurtosis).
+    Compute kurtosis (tail heaviness).
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Uses SciPy's `kurtosis` (Fisher definition).
+    - Normal distribution → kurtosis = 0.
     """
     value = float(kurtosis(data))
     return {"stat": value, "method": "kurtosis", "extra": {}}
@@ -127,18 +193,22 @@ def kurtosis_value(data: NumericArray) -> LowLevelResult:
 
 def trimmed_mean_value(data: NumericArray, proportion: float = 0.1) -> LowLevelResult:
     """
-    Υπολογίζει trimmed mean.
+    Compute trimmed mean.
 
-    Αφαιρεί ένα ποσοστό από τις χαμηλές και υψηλές τιμές πριν τον υπολογισμό.
+    Removes a proportion of low and high values before computing the mean.
 
     Parameters
     ----------
     proportion : float
-        Ποσοστό trimming από κάθε άκρο.
+        Fraction trimmed from each tail.
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Robust to outliers.
     """
     value = float(trim_mean(data, proportion))
     return {
@@ -152,18 +222,22 @@ def winsorized_mean(
     data: NumericArray, limits: tuple[float, float] = (0.1, 0.1)
 ) -> LowLevelResult:
     """
-    Υπολογίζει winsorized mean.
+    Compute winsorized mean.
 
-    Αντί να αφαιρεί ακραίες τιμές, τις αντικαθιστά με τιμές στα όρια.
+    Instead of removing outliers, replaces them with boundary values.
 
     Parameters
     ----------
-    limits : Tuple[float, float]
-        Ποσοστά winsorization για χαμηλό και υψηλό άκρο.
+    limits : tuple[float, float]
+        Winsorization proportions for low and high tails.
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Uses SciPy's `mstats.winsorize`.
     """
     w = mstats.winsorize(data, limits=limits)
     value = float(np.mean(w))
@@ -176,11 +250,16 @@ def winsorized_mean(
 
 def geometric_mean(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει τον γεωμετρικό μέσο.
+    Compute geometric mean.
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Suitable for multiplicative processes.
+    - All values must be positive.
     """
     value = float(gmean(data))
     return {"stat": value, "method": "geometric_mean", "extra": {}}
@@ -188,26 +267,67 @@ def geometric_mean(data: NumericArray) -> LowLevelResult:
 
 def harmonic_mean(data: NumericArray) -> LowLevelResult:
     """
-    Υπολογίζει τον αρμονικό μέσο.
+    Compute harmonic mean.
 
     Returns
     -------
     LowLevelResult
+
+    Notes
+    -----
+    - Suitable for rates (e.g., speed, ratios).
+    - All values must be positive.
     """
     value = float(hmean(data))
     return {"stat": value, "method": "harmonic_mean", "extra": {}}
 
 
 def descriptive_stats(data: NumericArray, kurt: bool = False) -> DescriptiveResult:
+    """
+    Compute a full descriptive statistics summary.
+
+    Parameters
+    ----------
+    data : NumericArray
+        Sequence of numeric values.
+    kurt : bool
+        Whether to include kurtosis in the result.
+
+    Returns
+    -------
+    DescriptiveResult
+        Dictionary containing:
+        - mean
+        - median
+        - mode
+        - variance
+        - std
+        - skewness
+        - min, max
+        - count
+        - percentiles (0, 25, 50, 75, 100)
+        - kurtosis (optional)
+
+    Raises
+    ------
+    ValueError
+        If input is empty.
+
+    Notes
+    -----
+    - All values are cast to Python floats.
+    - Percentiles use NumPy's `np.percentile`.
+    """
     arr = np.asarray(data, dtype=float)
     if arr.size == 0:
         raise ValueError("Empty input")
+
     return {
         "mean": mean(arr)["stat"],
         "median": median(arr)["stat"],
         "mode": mode_value(arr)["stat"],
-        "variance": variance(arr)["stat"],  # ddof=1
-        "std": std(arr)["stat"],  # ddof=1
+        "variance": variance(arr)["stat"],
+        "std": std(arr)["stat"],
         "skewness": skewness(arr)["stat"],
         "min": float(np.min(arr)),
         "max": float(np.max(arr)),

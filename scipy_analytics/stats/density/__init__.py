@@ -1,16 +1,24 @@
 """
-Kernel Density Estimation utilities.
+Kernel Density Estimation (KDE) utilities.
 
-Το subpackage `kde` παρέχει wrappers για το scipy.stats.gaussian_kde
-και εργαλεία για:
+The `density` subpackage provides:
 
-- 1D KDE estimation
-- 2D KDE estimation
-- bandwidth selection
-- integration με plotting modules
+- KDE class (wrapper around scikit‑learn KernelDensity)
+- Silverman bandwidth selection
+- Cross‑validated bandwidth selection (cv_bandwidth)
+- Grid evaluation utilities for plotting
 
-Στόχος:
-- Ενοποιημένη διεπαφή KDE
-- Εύκολη παραγωγή density plots
-- Plug-and-play χρήση σε statistical workflows
+Modules
+-------
+kde
+    Unified 1D KDE interface.
+bandwidth
+    Cross‑validated bandwidth selection.
+
+Goals
+-----
+- Unified KDE API
+- NumPy‑friendly interface
+- Plug‑and‑play usage in statistical workflows
+- Integration with plotting modules
 """

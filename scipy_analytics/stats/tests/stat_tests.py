@@ -191,26 +191,6 @@ def kstest_distribution(data: NumericArray, dist: str = "norm") -> TestResult:
     }
 
 
-# -----------------------------
-# Contingency tests
-# -----------------------------
-
-# def chi_square(table: Sequence[Sequence[int]]) -> TestResult:
-#     """
-#     Chi-square test of independence.
-
-#     Μετατροπή σε NumPy array για συμβατότητα με typing stubs.
-#     """
-#     arr = np.asarray(table, dtype=float)
-#     stat, p, dof, expected = chi2_contingency(arr)
-#     return {
-#         "statistic": float(stat),
-#         "pvalue": float(p),
-#         "method": "chi2_contingency",
-#         "extra": {"dof": dof, "expected": expected},
-#     }
-
-
 def fisher_test(table: Sequence[Sequence[int]]) -> TestResult:
     """
     Fisher exact test.
